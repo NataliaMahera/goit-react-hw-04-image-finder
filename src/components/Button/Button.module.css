@@ -1,0 +1,19 @@
+.loadMoreBtn {
+    display: block;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #7af7f0;
+    border-radius: 5px;
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-bottom:20px;
+    font-size: 18px;
+}
+  
+  .loadMoreBtn:hover {
+    background-color: rgba(228, 215, 215, 0.5);
+    transition: all 0.3s;
+  }
