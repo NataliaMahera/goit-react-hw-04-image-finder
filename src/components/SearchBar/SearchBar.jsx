@@ -1,48 +1,44 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import css from './SearchBar.module.css';
 
-export class SearchBar extends Component {
-  state = {
-    searchQuery: '', // Зберігає значення введеного пошукового запиту
+export const SearchBar = ({ onSubmitForm }) => {
+  // Зберігає значення введеного пошукового запиту
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleChange = ({ target: { value } }) => {
+    setSearchQuery(value);
   };
 
-  handleChange = ({ target: { value } }) => {
-    this.setState({ searchQuery: value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    const searchQuery = this.state.searchQuery.trim();
+    const newSearchQuery = searchQuery.trim();
 
-    if (!searchQuery) {
+    if (!newSearchQuery) {
       return Notify.warning('Please, fill the main field');
     }
 
-    this.props.onSubmitForm(searchQuery);
+    onSubmitForm(newSearchQuery);
 
-    this.setState({ searchQuery: '' });
+    setSearchQuery('');
   };
 
-  render() {
-    const { searchQuery } = this.state;
-    return (
-      <header className={css.searchBar}>
-        <form className={css.searchForm} onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.handleChange}
-            value={searchQuery}
-          />
-          <button type="submit">
-            <span className={css.buttonLabel}>Search</span>
-          </button>
-        </form>
-      </header>
-    );
-  }
-}
+  return (
+    <header className={css.searchBar}>
+      <form className={css.searchForm} onSubmit={handleSubmit}>
+        <input
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={handleChange}
+          value={searchQuery}
+        />
+        <button type="submit">
+          <span className={css.buttonLabel}>Search</span>
+        </button>
+      </form>
+    </header>
+  );
+};
