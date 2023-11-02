@@ -3,11 +3,10 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import css from './SearchBar.module.css';
 
 export const SearchBar = ({ onSubmitForm }) => {
-  // Зберігає значення введеного пошукового запиту
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleChange = ({ target: { value } }) => {
-    setSearchQuery(value);
+  const handleChange = e => {
+    setSearchQuery(e.target.value);
   };
 
   const handleSubmit = e => {
@@ -20,7 +19,6 @@ export const SearchBar = ({ onSubmitForm }) => {
     }
 
     onSubmitForm(newSearchQuery);
-
     setSearchQuery('');
   };
 
