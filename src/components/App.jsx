@@ -6,6 +6,13 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import { LoadMoreBtn } from './Button/Button';
 
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+  RESOLVED: 'resolved',
+};
+
 export const App = ({ openModal }) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
@@ -13,10 +20,11 @@ export const App = ({ openModal }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [status, setStatus] = useState(Status.IDLE);
 
   useEffect(() => {
     if (!query) return;
-
+    setStatus(Status.PENDING);
     const addImagesOnSubmit = async () => {
       try {
         setIsLoading(true);
@@ -31,6 +39,7 @@ export const App = ({ openModal }) => {
 
         setImages(prevImages => [...prevImages, ...hits]);
         setTotalPages(Math.ceil(totalHits / 12));
+        setStatus(Status.RESOLVED);
       } catch {
         setError(error);
         Notify.failure('Oops, something went wrong!');
